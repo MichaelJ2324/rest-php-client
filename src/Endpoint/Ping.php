@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -18,10 +19,10 @@ class Ping extends AbstractSugarEndpoint
 
     protected static $_ENDPOINT_URL = 'ping/$:whattimeisit';
 
-    protected static $_DEFAULT_PROPERTIES = array(
+    protected static $_DEFAULT_PROPERTIES = [
         self::PROPERTY_AUTH => true,
-        self::PROPERTY_HTTP_METHOD => "GET"
-    );
+        self::PROPERTY_HTTP_METHOD => "GET",
+    ];
 
     /**
      * Submit the ping/whattimeisit API Request
@@ -30,9 +31,9 @@ class Ping extends AbstractSugarEndpoint
      */
     public function whattimeisit()
     {
-        $this->setUrlArgs(array(self::SERVER_TIME));
+        $this->setUrlArgs([self::SERVER_TIME]);
         $this->execute();
-        return $this->setUrlArgs(array());
+        return $this->setUrlArgs([]);
     }
 
     /**

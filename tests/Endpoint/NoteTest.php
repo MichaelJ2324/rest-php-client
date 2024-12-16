@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -63,7 +64,7 @@ class NoteTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             'add' => [],
             'delete' => [],
-            'create' => []
+            'create' => [],
         ], $attachments->getValue($Note));
 
         $attachments->setValue($Note, [
@@ -71,8 +72,8 @@ class NoteTest extends \PHPUnit\Framework\TestCase
             'delete' => ['67890'],
             'create' => [[
                 'id' => '123456',
-                'name' => 'foobar.txt'
-            ]]
+                'name' => 'foobar.txt',
+            ]],
         ]);
         $hasAttachmentsChanges = $Reflection->getMethod("hasAttachmentsChanges");
         $hasAttachmentsChanges->setAccessible(true);
@@ -84,14 +85,14 @@ class NoteTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             'add' => [],
             'delete' => ['12345'],
-            'create' => []
+            'create' => [],
         ], $attachments->getValue($Note));
         $this->assertEquals($Note, $Note->deleteAttachments(['12345','67890']));
         $this->assertTrue($hasAttachmentsChanges->invoke($Note));
         $this->assertEquals([
             'add' => [],
             'delete' => ['12345','12345','67890'],
-            'create' => []
+            'create' => [],
         ], $attachments->getValue($Note));
         $this->assertEquals($Note, $Note->resetAttachments());
         $this->assertFalse($hasAttachmentsChanges->invoke($Note));
@@ -142,7 +143,7 @@ class NoteTest extends \PHPUnit\Framework\TestCase
         ])));
         self::$client->mockResponses->append(new \GuzzleHttp\Psr7\Response(200, [], json_encode([
             'id' => '567890',
-            'name' => 'Test note'
+            'name' => 'Test note',
         ])));
         $Note = new Note();
         $Note->setClient(self::$client);
@@ -164,10 +165,10 @@ class NoteTest extends \PHPUnit\Framework\TestCase
                     [
                         'id' => '12345',
                         'name' => 'foobar.txt',
-                        'filename_guid' => '12345'
-                    ]
-                ]
-            ]
+                        'filename_guid' => '12345',
+                    ],
+                ],
+            ],
         ]), $request->getBody()->getContents());
     }
 }

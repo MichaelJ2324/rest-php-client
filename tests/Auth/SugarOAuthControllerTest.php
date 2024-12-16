@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -86,7 +87,7 @@ class SugarOAuthControllerTest extends \PHPUnit\Framework\TestCase
             'client_secret' => 'client_secret',
             'password' => 'password',
             'username' => 'username',
-            'platform' => 'base'
+            'platform' => 'base',
         ]));
         $this->assertTrue($Logger->hasInfoThatContains("Cannot use server in cache string."));
         $Logger->reset();
@@ -98,7 +99,7 @@ class SugarOAuthControllerTest extends \PHPUnit\Framework\TestCase
             'client_secret' => 'client_secret',
             'password' => 'password',
             'username' => 'username',
-            'platform' => 'base'
+            'platform' => 'base',
         ]));
         $this->assertFalse($Logger->hasInfoThatContains("Cannot use server in cache string."));
 
@@ -112,7 +113,7 @@ class SugarOAuthControllerTest extends \PHPUnit\Framework\TestCase
             'password' => 'password',
             'username' => 'username',
             'platform' => 'base',
-            'sudo' => 'foobar'
+            'sudo' => 'foobar',
         ]));
         $this->assertFalse($Logger->hasInfoThatContains("Cannot use server in cache string."));
 
@@ -122,7 +123,7 @@ class SugarOAuthControllerTest extends \PHPUnit\Framework\TestCase
             'password' => 'password',
             'username' => 'username',
             'platform' => 'base',
-            'sudo' => 'foobar'
+            'sudo' => 'foobar',
         ]);
         $this->assertEquals(sha1("http://phpunit.tests_client_id_base_username_sudofoobar"), $Auth->getCacheKey());
     }
@@ -141,13 +142,13 @@ class SugarOAuthControllerTest extends \PHPUnit\Framework\TestCase
         $Auth = new SugarOAuthStub();
         $logger = new TestLogger();
         $Auth->setLogger($logger);
-        $Auth->setCredentials(array(
+        $Auth->setCredentials([
             'username' => 'system',
             'password' => 'asdf',
             'client_id' => 'sugar',
             'client_secret' => '',
-            'platform' => 'api'
-        ));
+            'platform' => 'api',
+        ]);
         $EP = new OAuth2Sudo();
         $EP->setClient(self::$client);
         $EP->setBaseUrl('http://localhost/rest/v11');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -25,10 +26,10 @@ class Metadata extends AbstractSugarEndpoint
     /**
      * @inheritdoc
      */
-    protected static $_DEFAULT_PROPERTIES = array(
+    protected static $_DEFAULT_PROPERTIES = [
         'auth' => true,
-        'httpMethod' => "GET"
-    );
+        'httpMethod' => "GET",
+    ];
 
     /**
      * Gets the Metadata Hash
@@ -37,7 +38,7 @@ class Metadata extends AbstractSugarEndpoint
      */
     public function getHash()
     {
-        $this->setUrlArgs(array(self::METADATA_TYPE_HASH));
+        $this->setUrlArgs([self::METADATA_TYPE_HASH]);
         return $this->execute();
     }
 
@@ -48,7 +49,7 @@ class Metadata extends AbstractSugarEndpoint
      */
     public function getPublic()
     {
-        $this->setUrlArgs(array(self::METADATA_TYPE_PUBLIC));
+        $this->setUrlArgs([self::METADATA_TYPE_PUBLIC]);
         $this->setProperty('auth', true);
         $this->execute();
         $this->setProperty('auth', true);

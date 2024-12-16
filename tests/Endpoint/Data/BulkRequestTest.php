@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -17,26 +18,26 @@ use Sugarcrm\REST\Endpoint\ModuleFilter;
  */
 class BulkRequestTest extends \PHPUnit\Framework\TestCase
 {
-    protected $bulkPayload = array(
-        array(
+    protected $bulkPayload = [
+        [
             'url' => '/v11/Accounts',
             'method' => 'POST',
-            'headers' => array(
+            'headers' => [
                 'Host: localhost',
-                'Content-Type: application/json'
-            ),
-            'data' => '{"foo":"bar"}'
-        ),
-        array(
+                'Content-Type: application/json',
+            ],
+            'data' => '{"foo":"bar"}',
+        ],
+        [
             'url' => '/v11/Contacts/filter',
             'method' => 'POST',
-            'headers' => array(
+            'headers' => [
                 'Host: localhost',
-                'Content-Type: application/json'
-            ),
-            'data' => '{"offset":0,"max_num":50,"filter":[{"foo":{"$equals":"bar"}}]}'
-        ),
-    );
+                'Content-Type: application/json',
+            ],
+            'data' => '{"offset":0,"max_num":50,"filter":[{"foo":{"$equals":"bar"}}]}',
+        ],
+    ];
 
     public static function setUpBeforeClass(): void
     {
@@ -71,10 +72,10 @@ class BulkRequestTest extends \PHPUnit\Framework\TestCase
         $Filter->setBaseUrl('http://localhost/rest/v11');
         $Filter->filter()->equals('foo', 'bar');
 
-        $payloadUncompiled = array(
+        $payloadUncompiled = [
             $Request,
-            $Filter
-        );
+            $Filter,
+        ];
         $Data->set($payloadUncompiled);
         $this->assertEquals($payloadUncompiled, $Data->toArray(false));
         $compiled = $Data->toArray();
@@ -86,9 +87,9 @@ class BulkRequestTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey(BulkRequest::BULK_REQUEST_DATA_NAME, $compiled);
         $this->assertEquals($this->bulkPayload, $compiled[BulkRequest::BULK_REQUEST_DATA_NAME]);
         $Data->reset();
-        $Data->set(array(
-            BulkRequest::BULK_REQUEST_DATA_NAME => $this->bulkPayload
-        ));
+        $Data->set([
+            BulkRequest::BULK_REQUEST_DATA_NAME => $this->bulkPayload,
+        ]);
         $compiled = $Data->toArray();
         $this->assertArrayHasKey(BulkRequest::BULK_REQUEST_DATA_NAME, $compiled);
         $this->assertEquals($this->bulkPayload, $compiled[BulkRequest::BULK_REQUEST_DATA_NAME]);
@@ -130,8 +131,8 @@ class BulkRequestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $result['data']);
 
         $Request = new Request("GET", "http://localhost/rest/v11/Accounts", [
-                'X-Sugar-Platform' => "foobar"
-            ]);
+            'X-Sugar-Platform' => "foobar",
+        ]);
         $result = $extractRequest->invoke($Data, $Request);
         $this->assertArrayHasKey('url', $result);
         $this->assertEquals('/v11/Accounts', $result['url']);
@@ -140,7 +141,7 @@ class BulkRequestTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('headers', $result);
         $this->assertEquals([
             'Host: localhost',
-            "X-Sugar-Platform: foobar"
+            "X-Sugar-Platform: foobar",
         ], $result['headers']);
         $this->assertArrayHasKey('data', $result);
         $this->assertEquals(null, $result['data']);

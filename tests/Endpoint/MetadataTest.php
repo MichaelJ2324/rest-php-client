@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -55,12 +56,12 @@ class MetadataTest extends \PHPUnit\Framework\TestCase
         // $Metadata->setAuth(new SugarOAuthController());
         $Metadata->setBaseUrl('http://localhost/rest/v11');
         $Metadata->getHash();
-        $this->assertEquals(array($Metadata::METADATA_TYPE_HASH), $Metadata->getUrlArgs());
+        $this->assertEquals([$Metadata::METADATA_TYPE_HASH], $Metadata->getUrlArgs());
         $this->assertEquals('http://localhost/rest/v11/metadata/_hash', self::$client->mockResponses->getLastRequest()->getUri()->__toString());
 
         self::$client->mockResponses->append(new \GuzzleHttp\Psr7\Response(200));
         $Metadata->getPublic();
-        $this->assertEquals(array($Metadata::METADATA_TYPE_PUBLIC), $Metadata->getUrlArgs());
+        $this->assertEquals([$Metadata::METADATA_TYPE_PUBLIC], $Metadata->getUrlArgs());
         $this->assertEquals('http://localhost/rest/v11/metadata/public', self::$client->mockResponses->getLastRequest()->getUri()->__toString());
     }
 }

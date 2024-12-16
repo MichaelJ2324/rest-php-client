@@ -154,7 +154,7 @@ class SugarApi extends AbstractClient implements PlatformAwareInterface
      * @param array $creds
      * @return void
      */
-    protected function updateAuthCredentials(array $creds = array())
+    protected function updateAuthCredentials(array $creds = [])
     {
         if (!isset($creds[SugarOAuthController::OAUTH_PROP_PLATFORM])) {
             $creds[SugarOAuthController::OAUTH_PROP_PLATFORM] = $this->getPlatform();

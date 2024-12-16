@@ -5,6 +5,8 @@ namespace Sugarcrm\REST\Endpoint;
 use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\Psr7\Response;
 use Sugarcrm\REST\Endpoint\Abstracts\AbstractSugarBeanEndpoint;
+use Sugarcrm\REST\Endpoint\Traits\ParseFilesTrait;
+use Sugarcrm\REST\Endpoint\Traits\NoteAttachmentsTrait;
 
 /**
  * Metadata Endpoint provides access to the defined Metadata of the system
@@ -12,6 +14,11 @@ use Sugarcrm\REST\Endpoint\Abstracts\AbstractSugarBeanEndpoint;
  */
 class Note extends Module
 {
+    use NoteAttachmentsTrait {
+        resetAttachments as private resetAttachmentsProp;
+    }
+    use ParseFilesTrait;
+
     public const NOTE_ACTION_MULTI_ATTACH = 'multiAttach';
 
     public const NOTES_FILE_FIELD = 'filename';
@@ -19,16 +26,10 @@ class Note extends Module
     public const NOTES_ATTACHMENTS_FIELD = 'attachments';
 
     protected $actions = [
-        self::NOTE_ACTION_MULTI_ATTACH => 'POST'
+        self::NOTE_ACTION_MULTI_ATTACH => 'POST',
     ];
 
     protected $_beanName = 'Notes';
-
-    private $_attachments = [
-        'add' => [],
-        'delete' => [],
-        'create' => []
-    ];
 
     /**
      * @inheritDoc
@@ -38,6 +39,7 @@ class Note extends Module
      */
     protected function configureURL(array $urlArgs): string
     {
+
         if ($this->getCurrentAction() == self::NOTE_ACTION_MULTI_ATTACH) {
             //Set ID Var to temp - :module/temp
             $urlArgs[self::MODEL_ID_VAR] = 'temp';
@@ -61,9 +63,9 @@ class Note extends Module
             $this->setCurrentAction(self::NOTE_ACTION_MULTI_ATTACH);
             $promises = [];
             foreach ($parsed as $file) {
-                $this->setFile(self::NOTES_FILE_FIELD, $file['path'], array(
-                    'filename' => $file['name']
-                ));
+                $this->setFile(self::NOTES_FILE_FIELD, $file['path'], [
+                    'filename' => $file['name'],
+                ]);
                 $this->_upload = true;
                 if ($async) {
                     $promises[] = $this->asyncExecute()->getPromise();
@@ -77,35 +79,6 @@ class Note extends Module
             $this->save();
         }
         return $this;
-    }
-
-    /**
-     * Parse files array into standard format
-     * @param array $files
-     * @return array
-     */
-    protected function parseFiles(array $files)
-    {
-        $parsed = [];
-        foreach ($files as $file) {
-            if (is_string($file)) {
-                $filePath = $file;
-                $fileName = basename($filePath);
-            } elseif (is_array($file)) {
-                $filePath = $file['path'];
-                $fileName = $file['name'] ?? null;
-            } elseif (is_object($file)) {
-                $filePath = $file->path;
-                $fileName = $file->name ?? null;
-            }
-            if (file_exists($filePath)) {
-                $parsed[] = [
-                    'path' => $filePath,
-                    'name' => $fileName ?? basename($filePath)
-                ];
-            }
-        }
-        return $parsed;
     }
 
     /**
@@ -123,12 +96,8 @@ class Note extends Module
      */
     public function resetAttachments()
     {
-        $this->_attachments = [
-            'add' => [],
-            'delete' => [],
-            'create' => []
-        ];
-        $this->getData()->offsetUnset(self::NOTES_ATTACHMENTS_FIELD);
+        $this->resetAttachmentsProp();
+        $this->getData()->offsetUnset($this->getAttachmentsLinkField());
         return $this;
     }
 
@@ -146,42 +115,10 @@ class Note extends Module
                     $this->resetAttachments();
                     break;
                 case self::NOTE_ACTION_MULTI_ATTACH:
-                    $body = $this->getResponseBody();
-                    if (isset($body['record'])) {
-                        $note = $body['record'];
-                        $note['filename_guid'] = $body['record']['id'];
-                        $this->_attachments['create'][] = $note;
-                    }
+                    $this->parseAttachmentUploadResponse($this->getResponseBody());
                     break;
             }
         }
-    }
-
-    /**
-     * Add ID(s) of attachments to be deleted. Does not make the API call, call execute once ready
-     * @param string|array $id
-     * @return $this
-     */
-    public function deleteAttachments($id)
-    {
-        if (!is_array($id)) {
-            $id = [$id];
-        }
-        array_push($this->_attachments['delete'], ...$id);
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function hasAttachmentsChanges()
-    {
-        foreach ($this->_attachments as $key => $values) {
-            if (!empty($values)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -191,9 +128,6 @@ class Note extends Module
     protected function configurePayload()
     {
         $data = parent::configurePayload();
-        if ($this->hasAttachmentsChanges()) {
-            $data = $this->getData()->set(self::NOTES_ATTACHMENTS_FIELD, $this->_attachments)->toArray();
-        }
-        return $data;
+        return $this->configureAttachmentsPayload($data);
     }
 }

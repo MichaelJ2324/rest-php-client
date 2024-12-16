@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -40,7 +41,7 @@ abstract class AbstractExpression implements FilterInterface, ExpressionInterfac
     /**
      * @var array
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
      * @var AbstractExpression
@@ -50,7 +51,7 @@ abstract class AbstractExpression implements FilterInterface, ExpressionInterfac
     /**
      * @var array
      */
-    protected $operators = array(
+    protected $operators = [
         'equals' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\Equals',
         'notEquals' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\NotEquals',
         'starts' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\Starts',
@@ -71,17 +72,17 @@ abstract class AbstractExpression implements FilterInterface, ExpressionInterfac
         'greaterThanOrEqualTo' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\GreaterThanOrEqual',
         'greaterThanOrEquals' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\GreaterThanOrEqual',
         'between' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\Between',
-        'dateBetween' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\DateBetween'
-    );
+        'dateBetween' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\DateBetween',
+    ];
 
     /**
      * @var array
      */
-    protected $expressions = array(
+    protected $expressions = [
         'and' => 'Sugarcrm\REST\Endpoint\Data\Filters\Expression\AndExpression',
         'or' => 'Sugarcrm\REST\Endpoint\Data\Filters\Expression\OrExpression',
         'date' => 'Sugarcrm\REST\Endpoint\Data\Filters\Expression\DateExpression',
-    );
+    ];
 
     /**
      * @param $name
@@ -104,7 +105,7 @@ abstract class AbstractExpression implements FilterInterface, ExpressionInterfac
             $this->filters[] = $Exp;
             return $Exp;
         }
-        throw new UnknownFilterOperator(array($name));
+        throw new UnknownFilterOperator([$name]);
     }
 
     /**
@@ -133,7 +134,7 @@ abstract class AbstractExpression implements FilterInterface, ExpressionInterfac
      */
     public function compile(): array
     {
-        $data = array();
+        $data = [];
         foreach ($this->filters as $filter) {
             $data[] = $filter->compile();
         }
@@ -145,7 +146,7 @@ abstract class AbstractExpression implements FilterInterface, ExpressionInterfac
      */
     public function clear()
     {
-        $this->filters = array();
+        $this->filters = [];
         return $this;
     }
 }

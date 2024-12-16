@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -12,62 +13,66 @@ use MRussell\REST\Endpoint\Provider\DefaultEndpointProvider;
  */
 class SugarEndpointProvider extends DefaultEndpointProvider
 {
-    protected $registry = array(
-        'module' => array(
+    protected $registry = [
+        'module' => [
             'class' => \Sugarcrm\REST\Endpoint\Module::class,
-            'properties' => array()
-        ),
-        'list' => array(
+            'properties' => [],
+        ],
+        'list' => [
             'class' => \Sugarcrm\REST\Endpoint\ModuleFilter::class,
-            'properties' => array()
-        ),
-        'audit' => array(
+            'properties' => [],
+        ],
+        'audit' => [
             'class' => \Sugarcrm\REST\Endpoint\ModuleAudit::class,
-            'properties' => array()
-        ),
-        'search' => array(
+            'properties' => [],
+        ],
+        'search' => [
             'class' => \Sugarcrm\REST\Endpoint\Search::class,
-            'properties' => array()
-        ),
-        'metadata' => array(
+            'properties' => [],
+        ],
+        'metadata' => [
             'class' => \Sugarcrm\REST\Endpoint\Metadata::class,
-            'properties' => array()
-        ),
-        'oauth2Token' => array(
+            'properties' => [],
+        ],
+        'oauth2Token' => [
             'class' => \Sugarcrm\REST\Endpoint\OAuth2Token::class,
-            'properties' => array()
-        ),
-        'oauth2Refresh' => array(
+            'properties' => [],
+        ],
+        'oauth2Refresh' => [
             'class' => \Sugarcrm\REST\Endpoint\OAuth2Refresh::class,
-            'properties' => array()
-        ),
-        'oauth2Logout' => array(
+            'properties' => [],
+        ],
+        'oauth2Logout' => [
             'class' => \Sugarcrm\REST\Endpoint\OAuth2Logout::class,
-            'properties' => array()
-        ),
-        'oauth2Sudo' => array(
+            'properties' => [],
+        ],
+        'oauth2Sudo' => [
             'class' => \Sugarcrm\REST\Endpoint\OAuth2Sudo::class,
-            'properties' => array()
-        ),
-        'me' => array(
+            'properties' => [],
+        ],
+        'me' => [
             'class' => \Sugarcrm\REST\Endpoint\Me::class,
-            'properties' => array()
-        ),
-        'bulk' => array(
+            'properties' => [],
+        ],
+        'bulk' => [
             'class' => \Sugarcrm\REST\Endpoint\Bulk::class,
-            'properties' => array()
-        ),
-        'enum' => array(
+            'properties' => [],
+        ],
+        'enum' => [
             'class' => \Sugarcrm\REST\Endpoint\Enum::class,
-            'properties' => array()
-        ),
-        'ping' => array(
+            'properties' => [],
+        ],
+        'ping' => [
             'class' => \Sugarcrm\REST\Endpoint\Ping::class,
-            'properties' => array()
-        ),
-        'Note' => array(
+            'properties' => [],
+        ],
+        'Note' => [
             'class' => \Sugarcrm\REST\Endpoint\Note::class,
-            'properties' => array()
-        )
-    );
+            'properties' => [],
+        ],
+        'Email' => [
+            'class' => \Sugarcrm\REST\Endpoint\Email::class,
+            'properties' => [],
+        ],
+    ];
 }

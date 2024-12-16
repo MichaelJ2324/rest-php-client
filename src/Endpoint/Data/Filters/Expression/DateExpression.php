@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -46,7 +47,7 @@ class DateExpression extends AbstractExpression
 
     protected $dateField = null;
 
-    protected $ranges = array(
+    protected $ranges = [
         'yesterday' => 'yesterday',
         'today' => 'today',
         'tomorrow' => 'tomorrow',
@@ -60,12 +61,12 @@ class DateExpression extends AbstractExpression
         'lastYear' => 'last_year',
         'thisYear' => 'this_year',
         'nextYear' => 'next_year',
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $operators = array(
+    protected $operators = [
         'equals' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\Equals',
         'notEquals' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\NotEquals',
         'isNull' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\IsNull',
@@ -81,19 +82,19 @@ class DateExpression extends AbstractExpression
         'greaterThanOrEqualTo' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\GreaterThanOrEqual',
         'greaterThanOrEquals' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\GreaterThanOrEqual',
         'dateBetween' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\DateBetween',
-        'between' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\DateBetween'
-    );
+        'between' => 'Sugarcrm\REST\Endpoint\Data\Filters\Operator\DateBetween',
+    ];
 
     /**
      * @var array
      */
-    protected $expressions = array();
+    protected $expressions = [];
 
     /**
      * DateExpression constructor.
      * @param array $arguments
      */
-    public function __construct($arguments = array())
+    public function __construct($arguments = [])
     {
         if (isset($arguments[0])) {
             $this->field($arguments[0]);
@@ -116,7 +117,7 @@ class DateExpression extends AbstractExpression
         if (empty($this->dateField)) {
             throw new MissingFieldForDateExpression();
         }
-        $args = array($this->dateField);
+        $args = [$this->dateField];
         if (array_key_exists($name, $this->ranges)) {
             $range = $this->ranges[$name];
             $args[] = $range;
@@ -131,7 +132,7 @@ class DateExpression extends AbstractExpression
             $this->filters[0] = $O;
             return $this;
         }
-        throw new UnknownFilterOperator(array($name));
+        throw new UnknownFilterOperator([$name]);
     }
 
     /**
@@ -142,7 +143,7 @@ class DateExpression extends AbstractExpression
         if (isset($this->filters[0])) {
             return $this->filters[0]->compile();
         }
-        return array();
+        return [];
     }
 
     /**

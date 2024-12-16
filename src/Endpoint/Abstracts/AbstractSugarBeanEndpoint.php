@@ -73,13 +73,13 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
     /**
      * @inheritdoc
      */
-    protected static $_DEFAULT_PROPERTIES = array(
+    protected static $_DEFAULT_PROPERTIES = [
         self::PROPERTY_AUTH => true,
-        self::PROPERTY_DATA => array(
-            EndpointData::DATA_PROPERTY_REQUIRED => array(),
-            EndpointData::DATA_PROPERTY_DEFAULTS => array()
-        )
-    );
+        self::PROPERTY_DATA => [
+            EndpointData::DATA_PROPERTY_REQUIRED => [],
+            EndpointData::DATA_PROPERTY_DEFAULTS => [],
+        ],
+    ];
 
     /**
      * @inheritdoc
@@ -90,7 +90,7 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
      * All the extra actions that can be done on a Sugar Bean
      * @var array
      */
-    protected static $_DEFAULT_SUGAR_BEAN_ACTIONS = array(
+    protected static $_DEFAULT_SUGAR_BEAN_ACTIONS = [
         self::BEAN_ACTION_FAVORITE => "PUT",
         self::BEAN_ACTION_UNFAVORITE => "PUT",
         self::BEAN_ACTION_FILTER_RELATED => "GET",
@@ -105,8 +105,8 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
         self::BEAN_ACTION_DOWNLOAD_FILE => "GET",
         self::BEAN_ACTION_ATTACH_FILE => "POST",
         self::BEAN_ACTION_TEMP_FILE_UPLOAD => "POST",
-        self::BEAN_ACTION_DUPLICATE_CHECK => "POST"
-    );
+        self::BEAN_ACTION_DUPLICATE_CHECK => "POST",
+    ];
 
     /**
      * Current Module
@@ -131,7 +131,7 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
      */
     protected bool $_deleteFileOnFail = false;
 
-    public function __construct(array $urlArgs = array(), array $properties = array())
+    public function __construct(array $urlArgs = [], array $properties = [])
     {
         parent::__construct($urlArgs, $properties);
         foreach (static::$_DEFAULT_SUGAR_BEAN_ACTIONS as $action => $method) {
@@ -162,7 +162,7 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
     {
         if ($this->_upload && !empty($this->_uploadFile['field']) && $this->_uploadFile['path']) {
             $request = $this->configureFileUploadRequest($request, [
-                $this->_uploadFile['field'] => $this->_uploadFile['path']
+                $this->_uploadFile['field'] => $this->_uploadFile['path'],
             ]);
             $data = null;
         } else {
@@ -207,10 +207,10 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
                 case self::BEAN_ACTION_TEMP_FILE_UPLOAD:
                     $body = $this->getResponseBody();
                     if (isset($body['record'])) {
-                        $this->set(array(
+                        $this->set([
                             'filename_guid' => $body['record']['id'],
-                            'filename' => $body['filename']['guid']
-                        ));
+                            'filename' => $body['filename']['guid'],
+                        ]);
                     }
                     return;
                 case self::BEAN_ACTION_FAVORITE:
@@ -301,7 +301,7 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
     /**
      * @inheritdoc
      */
-    protected function configureAction($action, array $arguments = array())
+    protected function configureAction($action, array $arguments = [])
     {
         $urlArgs = $this->getUrlArgs();
         if (isset($urlArgs[self::BEAN_ACTION_ARG1_VAR])) {
@@ -423,7 +423,7 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
         if (empty($id) && empty($destination)) {
             throw new EndpointException("Download file only works when record ID is set or destination is passed.");
         }
-        $this->setCurrentAction(self::BEAN_ACTION_DOWNLOAD_FILE, array($field));
+        $this->setCurrentAction(self::BEAN_ACTION_DOWNLOAD_FILE, [$field]);
         if (empty($destination)) {
             $destination = tempnam(sys_get_temp_dir(), $id);
         }
@@ -465,7 +465,7 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
     {
         $Filter = new FilterData($this);
         $this->setCurrentAction(self::BEAN_ACTION_FILTER_RELATED);
-        $args = array($linkName);
+        $args = [$linkName];
         if ($count) {
             $args[] = 'count';
         }
@@ -481,10 +481,10 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
      */
     public function massRelate(string $linkName, array $related_ids): AbstractSugarBeanEndpoint
     {
-        $this->setData(array(
+        $this->setData([
             'link_name' => $linkName,
-            'ids' => $related_ids
-        ));
+            'ids' => $related_ids,
+        ]);
         return $this->massLink($linkName);
     }
 
@@ -503,15 +503,15 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
         string $filePath,
         bool $deleteOnFail = false,
         string $uploadName = '',
-        string $mimeType = ''
+        string $mimeType = '',
     ): AbstractSugarBeanEndpoint {
-        $this->setCurrentAction(self::BEAN_ACTION_ATTACH_FILE, array($fileField));
+        $this->setCurrentAction(self::BEAN_ACTION_ATTACH_FILE, [$fileField]);
         $this->_deleteFileOnFail = $deleteOnFail;
         $this->_upload = true;
-        $this->setFile($fileField, $filePath, array(
+        $this->setFile($fileField, $filePath, [
             'mimeType' => $mimeType,
-            'filename' => $uploadName
-        ));
+            'filename' => $uploadName,
+        ]);
         return $this->execute();
     }
 
@@ -530,15 +530,15 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
         string $filePath,
         bool $deleteOnFail = true,
         string $uploadName = '',
-        string $mimeType = ''
+        string $mimeType = '',
     ): AbstractSugarBeanEndpoint {
-        $this->setCurrentAction(self::BEAN_ACTION_TEMP_FILE_UPLOAD, array($fileField));
+        $this->setCurrentAction(self::BEAN_ACTION_TEMP_FILE_UPLOAD, [$fileField]);
         $this->_upload = true;
         $this->_deleteFileOnFail = $deleteOnFail;
-        $this->setFile($fileField, $filePath, array(
+        $this->setFile($fileField, $filePath, [
             'mimeType' => $mimeType,
-            'filename' => $uploadName
-        ));
+            'filename' => $uploadName,
+        ]);
         $this->execute();
         return $this;
     }
@@ -549,10 +549,10 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
      */
     protected function configureFileUploadQueryParams(): array
     {
-        $data = array(
+        $data = [
             'format' => 'sugar-html-json',
             'delete_if_fails' => $this->_deleteFileOnFail,
-        );
+        ];
 
         if ($this->_deleteFileOnFail) {
             $Client = $this->getClient();
@@ -579,7 +579,7 @@ abstract class AbstractSugarBeanEndpoint extends ModelEndpoint implements SugarE
         if (file_exists($path)) {
             $this->_uploadFile = array_replace($properties, [
                 'field' => $field,
-                'path' => $path
+                'path' => $path,
             ]);
         }
         return $this;

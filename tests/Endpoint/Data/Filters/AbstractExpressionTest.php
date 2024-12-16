@@ -62,8 +62,8 @@ class AbstractExpressionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($Expression, $Expression->starts('foo', 'bar'));
         $this->assertEquals($Expression, $Expression->ends('foo', 'bar'));
         $this->assertEquals($Expression, $Expression->contains('foo', 'bar'));
-        $this->assertEquals($Expression, $Expression->in('foo', array('bar')));
-        $this->assertEquals($Expression, $Expression->notIn('foo', array("bar")));
+        $this->assertEquals($Expression, $Expression->in('foo', ['bar']));
+        $this->assertEquals($Expression, $Expression->notIn('foo', ["bar"]));
         $this->assertEquals($Expression, $Expression->isNull('foo'));
         $this->assertEquals($Expression, $Expression->notNull('foo'));
         $this->assertEquals($Expression, $Expression->lt('foo', 'bar'));
@@ -89,8 +89,8 @@ class AbstractExpressionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($Expression, $Expression->starts('foo', 'bar'));
         $this->assertEquals($Expression, $Expression->ends('foo', 'bar'));
         $this->assertEquals($Expression, $Expression->contains('foo', 'bar'));
-        $this->assertEquals($Expression, $Expression->in('foo', array('bar')));
-        $this->assertEquals($Expression, $Expression->notIn('foo', array("bar")));
+        $this->assertEquals($Expression, $Expression->in('foo', ['bar']));
+        $this->assertEquals($Expression, $Expression->notIn('foo', ["bar"]));
         $this->assertEquals($Expression, $Expression->isNull('foo'));
         $this->assertEquals($Expression, $Expression->notNull('foo'));
         $this->assertEquals($Expression, $Expression->lt('foo', 'bar'));

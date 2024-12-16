@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -28,14 +29,14 @@ class Bulk extends AbstractSmartSugarEndpoint
     /**
      * @var array
      */
-    protected static $_DEFAULT_PROPERTIES = array(
+    protected static $_DEFAULT_PROPERTIES = [
         self::PROPERTY_AUTH => true,
         self::PROPERTY_HTTP_METHOD => "POST",
-        self::PROPERTY_DATA => array(
-            EndpointData::DATA_PROPERTY_REQUIRED => array(
-                'requests' => 'array'
-            ),
-            EndpointData::DATA_PROPERTY_DEFAULTS => array()
-        )
-    );
+        self::PROPERTY_DATA => [
+            EndpointData::DATA_PROPERTY_REQUIRED => [
+                'requests' => 'array',
+            ],
+            EndpointData::DATA_PROPERTY_DEFAULTS => [],
+        ],
+    ];
 }

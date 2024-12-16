@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -73,10 +74,10 @@ class AbstractSugarCollectionEndpointTest extends \PHPUnit\Framework\TestCase
         $Reflection = new \ReflectionClass('Sugarcrm\REST\Tests\Stubs\Endpoint\SugarCollectionEndpoint');
         $configurePayload = $Reflection->getMethod('configurePayload');
         $configurePayload->setAccessible(true);
-        $this->assertEquals(array(
+        $this->assertEquals([
             'offset' => 0,
-            'max_num' => 50
-        ), $configurePayload->invoke($Endpoint)->toArray());
+            'max_num' => 50,
+        ], $configurePayload->invoke($Endpoint)->toArray());
     }
 
     /**

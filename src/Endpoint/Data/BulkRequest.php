@@ -30,9 +30,9 @@ class BulkRequest extends AbstractEndpointData
     {
         $data = parent::toArray(true);
         if ($compile) {
-            $compiled = array(
-                self::BULK_REQUEST_DATA_NAME => array()
-            );
+            $compiled = [
+                self::BULK_REQUEST_DATA_NAME => [],
+            ];
             if (isset($data[self::BULK_REQUEST_DATA_NAME])) {
                 $compiled[self::BULK_REQUEST_DATA_NAME] = $data[self::BULK_REQUEST_DATA_NAME];
             }
@@ -75,12 +75,12 @@ class BulkRequest extends AbstractEndpointData
             return false;
         }
         $urlArray = explode("/rest/", $url);
-        return array(
+        return [
             'url' => "/" . $urlArray[1],
             'method' => $Request->getMethod(),
             'headers' => $this->normaliseHeaders($Request->getHeaders()),
-            'data' => $Request->getBody()->getContents()
-        );
+            'data' => $Request->getBody()->getContents(),
+        ];
     }
 
     /**

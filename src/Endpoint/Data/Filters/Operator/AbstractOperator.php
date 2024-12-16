@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -32,7 +33,7 @@ abstract class AbstractOperator implements FilterInterface
     protected $value;
 
 
-    public function __construct(array $arguments = array())
+    public function __construct(array $arguments = [])
     {
         if (!empty($arguments)) {
             if (isset($arguments[0])) {
@@ -91,10 +92,10 @@ abstract class AbstractOperator implements FilterInterface
      */
     public function compile(): array
     {
-        return array(
-            $this->getField() => array(
-                static::$_OPERATOR => $this->getValue()
-            )
-        );
+        return [
+            $this->getField() => [
+                static::$_OPERATOR => $this->getValue(),
+            ],
+        ];
     }
 }

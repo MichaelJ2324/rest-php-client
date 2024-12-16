@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -42,7 +43,7 @@ class MeTest extends \PHPUnit\Framework\TestCase
         $actions = $Reflection->getProperty('actions');
         $actions->setAccessible(true);
         $this->assertNotEmpty(
-            $actions->getValue($Me)
+            $actions->getValue($Me),
         );
     }
 
@@ -66,7 +67,7 @@ class MeTest extends \PHPUnit\Framework\TestCase
         $action->setValue($Me, $Me::USER_ACTION_CREATE_PREFERENCE);
         $this->assertEquals('me/preference/pref1', $configureUrl->invoke($Me, ['actionArg1' => 'pref1']));
         $action->setValue($Me, $Me::MODEL_ACTION_DELETE);
-        $this->assertEquals('me', $configureUrl->invoke($Me, array('action' => 'preference')));
+        $this->assertEquals('me', $configureUrl->invoke($Me, ['action' => 'preference']));
     }
 
     /**

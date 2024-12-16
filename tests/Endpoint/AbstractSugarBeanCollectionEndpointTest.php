@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -42,20 +43,20 @@ class AbstractSugarBeanCollectionEndpointTest extends \PHPUnit\Framework\TestCas
     public function testSetUrlArgs()
     {
         $Endpoint = new SugarBeanCollectionEndpoint();
-        $this->assertEquals($Endpoint, $Endpoint->setUrlArgs(array(
-             'Accounts'
-         )));
-        $this->assertEquals(array(
-             'module' => 'Accounts'
-         ), $Endpoint->getUrlArgs());
-        $this->assertEquals($Endpoint, $Endpoint->setUrlArgs(array(
-             'Accounts',
-             'foo'
-         )));
-        $this->assertEquals(array(
-             'module' => 'Accounts',
-             1 => 'foo'
-         ), $Endpoint->getUrlArgs());
+        $this->assertEquals($Endpoint, $Endpoint->setUrlArgs([
+            'Accounts',
+        ]));
+        $this->assertEquals([
+            'module' => 'Accounts',
+        ], $Endpoint->getUrlArgs());
+        $this->assertEquals($Endpoint, $Endpoint->setUrlArgs([
+            'Accounts',
+            'foo',
+        ]));
+        $this->assertEquals([
+            'module' => 'Accounts',
+            1 => 'foo',
+        ], $Endpoint->getUrlArgs());
     }
 
     /**
@@ -91,18 +92,18 @@ class AbstractSugarBeanCollectionEndpointTest extends \PHPUnit\Framework\TestCas
      */
     public function testSetFields()
     {
-        $fields = array(
+        $fields = [
             'foo',
             'bar',
-            'name'
-        );
+            'name',
+        ];
         $Endpoint = new SugarBeanCollectionEndpoint();
         $this->assertEquals($Endpoint, $Endpoint->addField('foo'));
-        $this->assertEquals(array('foo'), $Endpoint->getFields());
+        $this->assertEquals(['foo'], $Endpoint->getFields());
         $this->assertEquals($Endpoint, $Endpoint->addField('foo'));
-        $this->assertEquals(array('foo'), $Endpoint->getFields());
+        $this->assertEquals(['foo'], $Endpoint->getFields());
         $this->assertEquals($Endpoint, $Endpoint->addField('bar'));
-        $this->assertEquals(array('foo', 'bar'), $Endpoint->getFields());
+        $this->assertEquals(['foo', 'bar'], $Endpoint->getFields());
         $this->assertEquals($Endpoint, $Endpoint->setFields($fields));
         $this->assertEquals($fields, $Endpoint->getFields());
 
@@ -143,8 +144,8 @@ class AbstractSugarBeanCollectionEndpointTest extends \PHPUnit\Framework\TestCas
         $configureURL->setAccessible(true);
         $Endpoint->setProperty('url', '$module/list');
         $Endpoint->setModule('Accounts');
-        $this->assertEquals('Accounts/list', $configureURL->invoke($Endpoint, array()));
-        $this->assertEquals('Accounts/list', $configureURL->invoke($Endpoint, array('foo')));
+        $this->assertEquals('Accounts/list', $configureURL->invoke($Endpoint, []));
+        $this->assertEquals('Accounts/list', $configureURL->invoke($Endpoint, ['foo']));
     }
 
     /**
@@ -162,11 +163,11 @@ class AbstractSugarBeanCollectionEndpointTest extends \PHPUnit\Framework\TestCas
         $this->assertEquals('Accounts', $Model->getModule());
 
         $Endpoint = new SugarBeanCollectionEndpoint();
-        $Model = $buildModel->invoke($Endpoint, array(
+        $Model = $buildModel->invoke($Endpoint, [
             'id' => 12345,
             'foo' => 'bar',
-            '_module' => 'Accounts'
-        ));
+            '_module' => 'Accounts',
+        ]);
 
         $this->assertEquals('Accounts', $Model->getModule());
     }

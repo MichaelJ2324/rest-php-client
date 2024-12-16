@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -30,20 +31,20 @@ class SugarOAuthController extends AbstractOAuth2Controller
 
     protected static $_DEFAULT_GRANT_TYPE = self::OAUTH_RESOURCE_OWNER_GRANT;
 
-    protected static $_DEFAULT_SUGAR_AUTH_ACTIONS = array(
-        self::ACTION_SUGAR_SUDO
-    );
+    protected static $_DEFAULT_SUGAR_AUTH_ACTIONS = [
+        self::ACTION_SUGAR_SUDO,
+    ];
 
     /**
      * @inheritdoc
      */
-    protected $credentials = array(
+    protected $credentials = [
         'username' => '',
         'password' => '',
         'client_id' => 'sugar',
         'client_secret' => '',
-        self::OAUTH_PROP_PLATFORM => SugarApi::PLATFORM_BASE
-    );
+        self::OAUTH_PROP_PLATFORM => SugarApi::PLATFORM_BASE,
+    ];
 
     /**
      * @inheritdoc
@@ -94,16 +95,16 @@ class SugarOAuthController extends AbstractOAuth2Controller
         }
 
         if (!empty($creds['client_id'])) {
-            $key .= "_".$creds['client_id'];
+            $key .= "_" . $creds['client_id'];
         }
         if (!empty($creds['platform'])) {
-            $key .= "_".$creds['platform'];
+            $key .= "_" . $creds['platform'];
         }
         if (!empty($creds['username'])) {
-            $key .= "_".$creds['username'];
+            $key .= "_" . $creds['username'];
         }
         if (!empty($creds['sudo'])) {
-            $key .= "_"."sudo".$creds['sudo'];
+            $key .= "_" . "sudo" . $creds['sudo'];
         }
         return ltrim($key, "_");
     }
@@ -129,7 +130,7 @@ class SugarOAuthController extends AbstractOAuth2Controller
                     $return = true;
                 }
             } catch (\Exception $ex) {
-                $this->getLogger()->error("Exception Occurred sending SUDO request: ".$ex->getMessage());
+                $this->getLogger()->error("Exception Occurred sending SUDO request: " . $ex->getMessage());
             }
         }
         return $return;
@@ -143,8 +144,8 @@ class SugarOAuthController extends AbstractOAuth2Controller
      */
     protected function configureSudoEndpoint(EndpointInterface $Endpoint, $user): EndpointInterface
     {
-        $Endpoint->setUrlArgs(array($user));
-        $data = array();
+        $Endpoint->setUrlArgs([$user]);
+        $data = [];
         $creds = $this->getCredentials();
         $data['platform'] = $creds['platform'];
         $data['client_id'] = $creds['client_id'];

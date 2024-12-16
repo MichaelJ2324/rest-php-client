@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -103,7 +104,7 @@ abstract class AbstractSugarBeanCollectionEndpoint extends AbstractSugarCollecti
     /**
      * @inheritdoc
      */
-    protected function buildModel(array $data = array()): AbstractModelEndpoint
+    protected function buildModel(array $data = []): AbstractModelEndpoint
     {
         $Model = parent::buildModel($data);
         if ($Model instanceof AbstractSugarBeanEndpoint) {

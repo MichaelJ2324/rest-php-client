@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -122,8 +123,8 @@ class ModuleFilterTest extends \PHPUnit\Framework\TestCase
     {
         $sampleData = [
             "filter" => [
-                [ 'foo' => [ '$equals' => 'bar' ] ]
-            ]
+                [ 'foo' => [ '$equals' => 'bar' ] ],
+            ],
         ];
 
         $ModuleFilter = new ModuleFilter();
@@ -151,7 +152,7 @@ class ModuleFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($Filter, $ModuleFilter->filter());
 
         $this->assertEquals($Filter, $ModuleFilter->filter(true));
-        $this->assertEquals(array(), $Filter->toArray(true));
+        $this->assertEquals([], $Filter->toArray(true));
         $data = $ModuleFilter->getData();
         $this->assertEmpty($data['filter']);
     }

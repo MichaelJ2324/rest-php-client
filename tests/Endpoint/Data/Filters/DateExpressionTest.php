@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ©[2022] SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
  */
@@ -42,7 +43,7 @@ class DateExpressionTest extends \PHPUnit\Framework\TestCase
      */
     public function testField()
     {
-        $Date = new DateExpression(array('test'));
+        $Date = new DateExpression(['test']);
         $Reflection = new \ReflectionClass(get_class($Date));
         $dateField = $Reflection->getProperty('dateField');
 
@@ -61,13 +62,13 @@ class DateExpressionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCall()
     {
-        $Expression = new DateExpression(array('foobar'));
+        $Expression = new DateExpression(['foobar']);
         $this->assertEquals([], $Expression->compile());
         $this->assertEquals($Expression, $Expression->equals('bar'));
         $this->assertEquals([
             'foobar' => [
-                '$equals' => 'bar'
-            ]
+                '$equals' => 'bar',
+            ],
         ], $Expression->compile());
         $this->assertEquals($Expression, $Expression->notEquals('foo'));
         $this->assertEquals($Expression, $Expression->isNull());
