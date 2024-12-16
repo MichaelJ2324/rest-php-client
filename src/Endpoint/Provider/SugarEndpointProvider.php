@@ -70,9 +70,5 @@ class SugarEndpointProvider extends DefaultEndpointProvider
             'class' => \Sugarcrm\REST\Endpoint\Note::class,
             'properties' => [],
         ],
-        'Email' => [
-            'class' => \Sugarcrm\REST\Endpoint\Email::class,
-            'properties' => [],
-        ],
     ];
 }
